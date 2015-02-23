@@ -1,8 +1,8 @@
-"use strict";
+"use strict"
 
 React = require "react"
-RootTmpl = require "./root.rt"
+FooTmpl = require "./foo.rt"
 
 module.exports = React.createClass
   render: ->
-    RootTmpl.apply(@)
+    FooTmpl.apply(@)

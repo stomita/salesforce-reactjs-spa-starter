@@ -1,6 +1,0 @@
-<rt-require dependency="react-bootstrap/lib/NavBar" as="NavBar"/>
-<rt-require dependency="react-bootstrap/lib/NavItem" as="NavItem"/>
-<rt-require dependency="react-bootstrap/lib/DropdownButton" as="DropdownButton"/>
-<NavBar>
-  <NavItem href="#">Hello</NavItem>
-</NavBar>

@@ -1,13 +1,19 @@
-<rt-require dependency="react-bootstrap/lib/Grid" as="Grid"/>
-<rt-require dependency="react-bootstrap/lib/Row" as="Row"/>
-<rt-require dependency="react-bootstrap/lib/Col" as="Col"/>
-<rt-require dependency="./app-header" as="AppHeader"/>
-<rt-require dependency="./app-body" as="AppBody"/>
-<Grid>
+<rt-require dependency="react-bootstrap/lib/Grid" as="Grid" />
+<rt-require dependency="react-bootstrap/lib/Row" as="Row"/ >
+<rt-require dependency="react-bootstrap/lib/Col" as="Col" />
+<rt-require dependency="./foo" as="Foo" />
+<rt-require dependency="./bar" as="Bar" />
+<rt-require dependency="./baz" as="Baz" />
+<Grid className="root">
   <Row>
-    <AppHeader />
-  </Row>
-  <Row>
-    <AppBody />
+    <Col md={6}>
+      <Foo className="elem foo">John</Foo>
+    </Col>
+    <Col md={4}>
+      <Bar className="elem bar">Jane</Bar>
+    </Col>
+    <Col md={2}>
+      <Baz className="elem baz">Jack</Baz>
+    </Col>
   </Row>
 </Grid>
