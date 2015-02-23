@@ -10,8 +10,9 @@
 <head>
   <link rel="stylesheet" href="{!URLFOR($Resource.MyAppLib, 'bootstrap/dist/css/bootstrap.min.css')}" />
   <link rel="stylesheet" href="{!URLFOR($Resource.MyApp, 'styles/main.css')}" />
+  <script src="{!URLFOR($Resource.MyAppLib, 'jquery/dist/jquery.min.js')}"></script>
   <script src="{!URLFOR($Resource.MyAppLib, 'bootstrap/dist/js/bootstrap.min.js')}"></script>
-  <script src="{!URLFOR($Resource.MyApp, 'scripts/main.js')}"></script>
+  <script src="{!URLFOR($Resource.MyApp, 'scripts/main-bundle.js')}"></script>
 </head>
 <body>
 </body>
