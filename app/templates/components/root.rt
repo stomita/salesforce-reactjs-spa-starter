@@ -1,0 +1,13 @@
+<rt-require dependency="react-bootstrap/lib/Grid" as="Grid"/>
+<rt-require dependency="react-bootstrap/lib/Row" as="Row"/>
+<rt-require dependency="react-bootstrap/lib/Col" as="Col"/>
+<rt-require dependency="./app-header" as="AppHeader"/>
+<rt-require dependency="./app-body" as="AppBody"/>
+<Grid>
+  <Row>
+    <AppHeader />
+  </Row>
+  <Row>
+    <AppBody />
+  </Row>
+</Grid>

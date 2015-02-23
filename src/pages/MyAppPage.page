@@ -1,0 +1,19 @@
+<apex:page docType="html-5.0"
+           showHeader="false"
+           sidebar="false"
+           applyBodyTag="false"
+           applyHtmlTag="false"
+           standardStylesheets="false"
+           cache="true"
+>
+<html>
+<head>
+  <link rel="stylesheet" href="{!URLFOR($Resource.MyAppLib, 'bootstrap/dist/css/bootstrap.min.css')}" />
+  <link rel="stylesheet" href="{!URLFOR($Resource.MyApp, 'styles/main.css')}" />
+  <script src="{!URLFOR($Resource.MyAppLib, 'bootstrap/dist/js/bootstrap.min.js')}"></script>
+  <script src="{!URLFOR($Resource.MyApp, 'scripts/main.js')}"></script>
+</head>
+<body>
+</body>
+</html>
+</apex:page>
