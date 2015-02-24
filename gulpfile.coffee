@@ -207,12 +207,16 @@ gulp.task "clean", ->
 
 
 ###
-# Archive Tasks
+# Deploy Tasks
 ###
 
 # Zip all built files as a static resource file
 gulp.task "archive:app", ->
-  gulp.src "#{paths.build.app}/**"
+  gulp.src [
+      "#{paths.build.app}/**"
+      "!#{paths.build.app}/**/*.js"
+      "#{paths.build.app}/scripts/**/*-bundle.js"
+    ]
     .pipe plumber()
     .pipe zip("#{appName}.resource")
     .pipe gulp.dest "#{paths.force}/staticresources"
@@ -229,8 +233,8 @@ gulp.task "archive:lib", ->
 # Zip all static resources
 gulp.task "archive", [ "archive:lib", "archive:app" ]
 
-# Deploying package to Salesforce
-gulp.task "deploy", ->
+#
+gulp.task "deploy:execute", ->
   gulp.src "#{paths.force}/**/*", base: "."
     .pipe plumber()
     .pipe zip("pkg.zip")
@@ -241,6 +245,9 @@ gulp.task "deploy", ->
       # pollTimeout: 120*1000
       # pollInterval: 10*1000
       # version: '33.0'
+
+# Deploying package to Salesforce
+gulp.task "deploy", [ "archive" ], -> gulp.start "deploy:execute"
 
 
 ###
@@ -279,9 +286,13 @@ gulp.task "watch", [ "watch:build", "watch:test" ]
 
 #
 gulp.task "watch:deploy", ->
-  gulp.watch "#{paths.build.app}/**", [ "archive:app" ]
+  gulp.watch [
+      "#{paths.build.app}/**"
+      "!#{paths.build.app}/**/*.js"
+      "#{paths.build.app}/scripts/**/*-bundle.js"
+    ], [ "archive:app" ]
   gulp.watch "#{paths.lib}/**", [ "archive:lib" ]
-  gulp.watch "#{paths.force}/**", [ "deploy" ]
+  gulp.watch "#{paths.force}/**", [ "deploy:execute" ]
 
 #
 gulp.task "watch:all", [ "watch", "watch:deploy" ]
