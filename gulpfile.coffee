@@ -212,12 +212,9 @@ gulp.task "clean", ->
 
 # Zip all built files as a static resource file
 gulp.task "archive:app", ->
-  gulp.src [
-      "#{paths.build.app}/**"
-      "!#{paths.build.app}/**/*.js"
-      "#{paths.build.app}/scripts/**/*-bundle.js"
-    ]
+  gulp.src "#{paths.build.app}/**"
     .pipe plumber()
+    .pipe gulpignore (f) -> f.path.match /\.js$/ && !!f.path.match /\-bundle\.js$/
     .pipe zip("#{appName}.resource")
     .pipe gulp.dest "#{paths.force}/staticresources"
     .pipe notify("Zip file created : <%= file.relative %>")
@@ -286,11 +283,7 @@ gulp.task "watch", [ "watch:build", "watch:test" ]
 
 #
 gulp.task "watch:deploy", ->
-  gulp.watch [
-      "#{paths.build.app}/**"
-      "!#{paths.build.app}/**/*.js"
-      "#{paths.build.app}/scripts/**/*-bundle.js"
-    ], [ "archive:app" ]
+  gulp.watch "#{paths.build.app}/**", [ "archive:app" ]
   gulp.watch "#{paths.lib}/**", [ "archive:lib" ]
   gulp.watch "#{paths.force}/**", [ "deploy:execute" ]
 
