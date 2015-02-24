@@ -61,6 +61,9 @@ $ gulp test:watch
 
 ## Deploy (Salesforce)
 
+With username and password (may include security token) as environment variables to connect to Salesforce,
+execute `gulp deploy` command :
+
 ```
 $ SF_USERNAME=yourname@example.org SF_PASSWORD=password gulp deploy
 ```
