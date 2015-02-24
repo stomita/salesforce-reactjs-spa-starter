@@ -156,5 +156,9 @@ The `nf` command can be installed by `npm install -g foreman`.
     │
     └── unit                 # Unit test
         ├── components          # ReactJS component unit test
+        │   ├── bar.test.js
+        │   ├── baz.test.js
+        │   ├── foo.test.js
+        │   ├── ...
         ├── ...
 ```

@@ -156,6 +156,10 @@ $ nf run gulp deploy
     │
     └── unit                 # 単体テスト
         ├── components          # ReactJS コンポーネントの単体テスト
+        │   ├── bar.test.js
+        │   ├── baz.test.js
+        │   ├── foo.test.js
+        │   ├── ...
         ├── ...
 ```
 
