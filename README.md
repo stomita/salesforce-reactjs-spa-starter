@@ -4,23 +4,28 @@ A template project to create ReactJS-based single page application on Salesforce
 
 ## Setup
 
-Make sure you are installing Node.js 0.10.x .
+Make sure you are installing Node.js 0.10.x or later.
 
 ```
 $ node --version
 ```
+
+Then execute following commands in project directory root:
 
 ```
 $ npm install
 $ bower install
 ```
 
-## Build files
+## Build Files
+
+Run the `gulp` command to build runnable codes from source code :
+
 ```
 $ gulp
 ```
 
-for automatic building
+for automatic building you can specify `watch` task option for gulp
 
 ```
 $ gulp watch
@@ -66,10 +71,10 @@ SF_USERNAME=yourname@example.org
 SF_PASSWORD=password
 ```
 
-Then execute `gulp deploy` using `foreman`
+Then execute `gulp deploy` using `foreman` :
 
 ```
 $ nf run gulp deploy
 ```
 
-The `nf` command will be installed by `npm install -g foreman`.
+The `nf` command can be installed by `npm install -g foreman`.
