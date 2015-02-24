@@ -17,6 +17,11 @@ $ npm install
 $ bower install
 ```
 
+If you have not installed the `gulp` command yet, install it by following command :
+
+```
+$ npm install -g gulp
+```
 
 ## Build Files
 
