@@ -82,3 +82,59 @@ $ nf run gulp deploy
 
 この`nf`コマンドは `npm install -g foreman` でインストール可能です。
 
+
+## プロジェクト・ディレクトリ構成
+
+```
+├── app                    # ソースコードディレクトリ
+│   ├── assets               # HTML、画像、フォントなどの静的ファイル
+│   │   ├── index.html         # エントリポイントとなるHTMLファイル
+│   │   ├── ...
+│   │
+│   ├── scripts              # スクリプトファイル(JSへコンパイル)
+│   │   ├── components         # ReactJS コンポーネントのスクリプトコード
+│   │   │   ├── bar.jsx          # .js および .jsx ファイル（JSX記述可能）
+│   │   │   ├── baz.cjsx         # .coffee および .cjsx ファイル(JSX記述可能)
+│   │   │   ├── foo.coffee
+│   │   │   ├── root.js
+│   │   │   ├── ...
+│   │   │ 
+│   │   ├── main.js            # エントリポイントとなるスクリプト
+│   │   ├── ...
+│   │
+│   ├── styles               # LESSスタイルシートファイル（CSSへコンパイル）
+│   │   ├── components         # ReactJS コンポーネントのスタイルシート
+│   │   ├── main.less          # エントリポイントとなるスタイルシート
+│   │   ├── ...
+│   │
+│   └── templates            # React-templates (http://wix.github.io/react-templates/) 形式のファイルを格納
+│       └── components         
+│           ├── foo.rt           # app/scripts/components/foo.coffee に対応
+│           ├── root.rt          # app/scripts/components/root.js に対応
+│           ├── ...
+│
+├── bower.json             # 依存ライブラリの設定
+├── gulpfile.coffee        # Gulp ビルドスクリプト
+├── package.json           # プロジェクトの各種設定
+│
+├── src                    # Force.com プロジェクトのソースコード
+│   ├── package.xml
+│   ├── pages
+│   │   ├── MyAppPage.page
+│   │   └── MyAppPage.page-meta.xml
+│   └── staticresources
+│       ├── MyApp.resource     # ビルドされたファイルを含むZIPファイル (gulpによって生成)
+│       ├── MyApp.resource-meta.xml
+│       ├── MyAppLib.resource  # Bowerのライブラリを含むZIPファイル (gulpによって生成)
+│       └── MyAppLib.resource-meta.xml
+│
+└── test                   # テストコードディレクトリ
+    ├── e2e                  # End-to-End テストのためのコード（protractorを想定）
+    │   ├── app001.test.js
+    │   ├── ...
+    │
+    └── unit                 # 単体テスト
+        ├── components          # ReactJS コンポーネントの単体テスト
+        ├── ...
+```
+
