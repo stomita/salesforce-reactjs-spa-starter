@@ -4,6 +4,8 @@ A template project to create ReactJS-based single page application on Salesforce
 
 Because it includes source code transpilation in the build system, you can write the code in CoffeeScript, use some of ES6 JavaScript grammer, or of course vanilla JavaScript (ES5).
 
+As we support [react-templates](http://wix.github.io/react-templates/), you don't have to write ReactJS component markup in JSX within your source code. It can be separated to solo template file.
+
 ## Setup
 
 Make sure you are installing Node.js 0.10.x or later.

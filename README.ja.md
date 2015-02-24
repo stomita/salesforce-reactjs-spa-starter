@@ -5,6 +5,8 @@ Gulp.jsを利用して自動ビルド・デプロイが可能です。
 
 ビルドシステム内にソースコードを変換する仕組みが組み入れられているため、コードをCoffeeScriptで書くことも、ES6 JavaScriptの文法を用いることも、もちろん通常のJavaScript(ES5)そのままでの利用もできます。
 
+ReactJSのコンポーネントのマークアップを記述する方式として、コード内にJSXを用いて開発することもできますが、[react-templates](http://wix.github.io/react-templates/) 形式のテンプレートファイルに分離することもできるようになっています。
+
 ## セットアップ
 
 Node.jsの0.10かそれ以上がインストールされていることを確認して下さい。
@@ -120,7 +122,7 @@ $ nf run gulp deploy
 │   │   ├── main.less          # エントリポイントとなるスタイルシート
 │   │   ├── ...
 │   │
-│   └── templates            # React-templates (http://wix.github.io/react-templates/) 形式のファイルを格納
+│   └── templates            # React-templates 形式のファイルを格納
 │       └── components         
 │           ├── foo.rt           # app/scripts/components/foo.coffee に対応
 │           ├── root.rt          # app/scripts/components/root.js に対応
