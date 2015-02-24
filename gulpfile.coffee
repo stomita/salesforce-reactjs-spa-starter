@@ -1,5 +1,6 @@
 gulp = require "gulp"
 gutil = require "gulp-util"
+gulpif = require "gulp-if"
 plumber = require "gulp-plumber"
 changed = require "gulp-changed"
 
@@ -31,16 +32,19 @@ port = 8000
 #
 paths =
   src:
+    app:       "./app"
+    test:      "./test"
     assets:    "./app/assets"
     scripts:   "./app/scripts"
     styles:    "./app/styles"
     templates: "./app/templates"
   build:
-    all:       "./build"
-    assets:    "./build"
-    scripts:   "./build/scripts"
-    styles:    "./build/styles"
-  bower:       "./bower_components"
+    app:       "./build/app"
+    test:      "./build/test"
+    assets:    "./build/app"
+    scripts:   "./build/app/scripts"
+    styles:    "./build/app/styles"
+  lib:         "./bower_components"
   force:       "./src"
 
 #
@@ -74,36 +78,17 @@ gulp.task "build:styles", ->
     .pipe gulp.dest paths.build.styles
     .pipe notify("Style compiled : <%= file.relative %>")
 
-# Compile CoffeeScripts in src directory
-gulp.task "build:coffee", ->
-  gulp.src "#{paths.src.scripts}/**/*.coffee"
+# Build script files
+gulp.task "build:scripts", ->
+  gulp.src "#{paths.src.scripts}/**/*.{js,jsx,coffee,cjsx}"
     .pipe plumber()
     .pipe changed(paths.build.scripts, extension: ".js")
-    .pipe coffee bare: true
-    .pipe gulp.dest paths.build.scripts
-    .pipe notify("Script compiled : <%= file.relative %>")
-
-# Compile CoffeeScript JSX in src directory
-gulp.task "build:cjsx", ->
-  gulp.src "#{paths.src.scripts}/**/*.cjsx"
-    .pipe plumber()
-    .pipe changed(paths.build.scripts, extension: ".js")
-    .pipe cjsx bare: true
-    .pipe gulp.dest paths.build.scripts
-    .pipe notify("Script compiled : <%= file.relative %>")
-
-# Compile ES6 JavaScripts (also supports React JSX) in src directory
-gulp.task "build:babel", ->
-  gulp.src "#{paths.src.scripts}/**/*.{js,jsx}"
-    .pipe plumber()
-    .pipe changed(paths.build.scripts, extension: ".js")
-    .pipe babel()
+    .pipe gulpif(/\.coffee$/, coffee(bare: true), # Compile CoffeeScript
+          gulpif(/\.cjsx$/,   cjsx(bare: true),   # Compile CoffeeScript JSX
+          gulpif(/\.jsx?$/,   babel() )))         # Compile ES6 JavaScript (optionally with JSX)
     .pipe rename(extname: ".js")
     .pipe gulp.dest paths.build.scripts
     .pipe notify("Script compiled : <%= file.relative %>")
-
-# All Script Compilation Task
-gulp.task "build:scripts", [ "build:coffee", "build:cjsx", "build:babel" ]
 
 # Compile React Template file
 gulp.task "build:templates", ->
@@ -114,16 +99,12 @@ gulp.task "build:templates", ->
     .pipe gulp.dest paths.build.scripts
     .pipe notify("Template compiled : <%= file.relative %>")
 
-# Bundle files into one runnable script file using browserify
-gulp.task "build:bundle", ->
-  buildBundle()
-
-# Build bundle with watch option
-gulp.task "build:bundleWatch", ->
-  buildBundle(true)
-
 #
-buildBundle = (watching) ->
+buildBundle = (opts) ->
+  { src, dest, watching } = opts
+  p = require "path"
+  bundleName = p.basename(src, p.extname(src)) + "-bundle.js"
+  console.log bundleName
   bundle = ->
     bundler
       .bundle()
@@ -131,15 +112,15 @@ buildBundle = (watching) ->
         args = Array.prototype.slice.call(arguments)
         notify.onError(title: "Compile Error", message: "<%= error.message %>").apply(@, args);
         @emit "end"
-      .pipe source("main-bundle.js")
+      .pipe source(bundleName)
       .pipe gulp.dest paths.build.scripts
       .pipe notify("Bundle created : <%= file.relative %>")
       .pipe streamify uglify()
       .pipe rename(extname: ".min.js")
-      .pipe gulp.dest paths.build.scripts
+      .pipe gulp.dest dest
       .pipe notify("Bundle created : <%= file.relative %>")
   bundler =
-    browserify "#{paths.build.scripts}/main.js",
+    browserify src,
       cache: {}
       packageCache: {}
       fullPaths: true
@@ -147,16 +128,44 @@ buildBundle = (watching) ->
   bundler = watchify(bundler).on "update", bundle if watching
   bundle()
 
+# Bundle files into one runnable script file using browserify
+gulp.task "build:bundle", ->
+  buildBundle
+    src: "#{paths.build.scripts}/main.js"
+    dest: paths.build.scripts
+
+# Build bundle with watch option
+gulp.task "build:bundleWatch", ->
+  buildBundle 
+    src: "#{paths.build.scripts}/main.js"
+    dest: paths.build.scripts
+    watching: true
+
 # All build tasks
 gulp.task "build", [ "build:assets", "build:styles", "build:scripts", "build:templates",  "build:bundle" ]
 
+# Build test scripts
+gulp.task "build:testBundle", ->
+  buildBundle
+    src: "#{paths.build.test}/**/test.js"
+    dest: paths.build.test
+
+# Build test scripts
+gulp.task "build:testBundleWatch", ->
+  buildBundle
+    src: "#{paths.build.test}/**/test.js"
+    dest: paths.build.test
+
+# Build test scripts
+gulp.task "build:testAll", [ "build:assets", "build:styles", "build:scripts", "build:template", "build:test", "build:testBundle" ]
+
 # Cleanup built files
 gulp.task "clean", ->
-  del [ paths.build.all ]
+  del [ paths.build.app, paths.build.test ]
 
 # Zip all built files as a static resource file
 gulp.task "archive:app", ->
-  gulp.src "#{paths.build.all}/**"
+  gulp.src "#{paths.build.app}/**"
     .pipe plumber()
     .pipe zip("#{appName}.resource")
     .pipe gulp.dest "#{paths.force}/staticresources"
@@ -164,7 +173,7 @@ gulp.task "archive:app", ->
 
 # Zip bower installed libralies
 gulp.task "archive:lib", ->
-  gulp.src "#{paths.bower}/**"
+  gulp.src "#{paths.lib}/**"
     .pipe plumber()
     .pipe zip("#{appName}Lib.resource")
     .pipe gulp.dest "#{paths.force}/staticresources"
@@ -186,18 +195,13 @@ gulp.task "deploy", ->
       # pollInterval: 10*1000
       # version: '33.0'
 
-# Start HTTP server
-gulp.task "serve", [ "build" ], ->
-  server = express()
-  server.use express.static(paths.build.all)
-  server.use express.static(paths.bower)
-  server.listen port
+#
+createOnChangeHandler = (label) ->
+  (e) ->
+    console.log("File #{e.path} was #{e.type}, running 'build:#{label}' task...")
 
 #
-gulp.task "watch:build", [ "build:templates", "build:scripts", "build:styles", "build:assets", "build:bundleWatch" ], ->
-  createOnChangeHandler = (label) ->
-    (e) ->
-      console.log("File #{e.path} was #{e.type}, running 'build:#{label}' task...")
+gulp.task "watch:common", [ "build:templates", "build:scripts", "build:styles", "build:assets" ], ->
   gulp.watch "#{paths.src.templates}/**", [ "build:templates" ]
     .on "change", createOnChangeHandler("templates")
   gulp.watch "#{paths.src.scripts}/**", [ "build:scripts" ]
@@ -208,13 +212,32 @@ gulp.task "watch:build", [ "build:templates", "build:scripts", "build:styles", "
     .on "change", createOnChangeHandler("assets")
 
 #
+gulp.task "watch:test", [ "build:test" ], ->
+  gulp.watch "#{paths.src.test}/**", [ "build:test" ]
+    .on "change", createOnChangeHandler("test")
+
+#
+gulp.task "watch:build", [ "watch:common", "build:bundleWatch" ]
+
+#
+gulp.task "watch:test", [ "watch:common", "watch:test", "build:testBundleWatch" ]
+
+#
 gulp.task "watch:deploy", ->
-  gulp.watch "#{paths.build.all}/**", [ "archive:app" ]
-  gulp.watch "#{paths.bower}/**", [ "archive:lib" ]
+  gulp.watch "#{paths.build.app}/**", [ "archive:app" ]
+  gulp.watch "#{paths.lib}/**", [ "archive:lib" ]
   gulp.watch "#{paths.force}/**", [ "deploy" ]
 
 #
 gulp.task "watch", [ "watch:build", "watch:deploy" ]
+
+
+# Start HTTP server
+gulp.task "serve", [ "build" ], ->
+  server = express()
+  server.use express.static(paths.build.app)
+  server.use express.static(paths.lib)
+  server.listen port
 
 #
 gulp.task "dev", [ "serve", "watch:build" ]
