@@ -1,7 +1,15 @@
 # Salesforce ReactJS SPA Starter
+
 A template project to create ReactJS-based single page application on Salesforce, with automatic build script (Gulp.js)
 
 ## Setup
+
+Make sure you are installing Node.js 0.10.x .
+
+```
+$ node --version
+```
+
 ```
 $ npm install
 $ bower install
@@ -9,19 +17,44 @@ $ bower install
 
 ## Build files
 ```
-$ gulp build
+$ gulp
+```
+
+for automatic building
+
+```
+$ gulp watch
 ```
 
 ## Preview
-Start web server by following command
+
+Start web server by following command :
 
 ```
-$ gulp serve
+$ gulp dev
 ```
 
 Then access to `http://localhost:8000`.
 
-## Deploy to Salesforce
+The command watches source code update and builds automatically.
+
+
+## Test
+
+Run unit tests
+
+```
+$ gulp test
+```
+
+For automatic test execution: (update watch)
+
+```
+$ gulp test:watch
+```
+
+
+## Deploy (Salesforce)
 
 ```
 $ SF_USERNAME=yourname@example.org SF_PASSWORD=password gulp deploy
