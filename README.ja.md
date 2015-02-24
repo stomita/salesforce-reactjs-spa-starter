@@ -119,6 +119,13 @@ $ nf run gulp deploy
 │           ├── root.rt          # app/scripts/components/root.js に対応
 │           ├── ...
 │
+├── build                  # Gulpによって生成されるビルドファイルを格納するディレクトリ
+│   ├── app
+│   │   ├── ...
+│   │
+│   └── test
+│       ├── ...
+│
 ├── bower.json             # 依存ライブラリの設定
 ├── gulpfile.coffee        # Gulp ビルドスクリプト
 ├── package.json           # プロジェクトの各種設定
