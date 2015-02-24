@@ -2,6 +2,8 @@
 
 A template project to create ReactJS-based single page application on Salesforce, with automatic build script (Gulp.js)
 
+Because it includes source code transpilation in the build system, you can write the code in CoffeeScript, use some of ES6 JavaScript grammer, or of course vanilla JavaScript (ES5).
+
 ## Setup
 
 Make sure you are installing Node.js 0.10.x or later.

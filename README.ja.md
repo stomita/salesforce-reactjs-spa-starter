@@ -3,6 +3,8 @@
 Salesforce上でReactJSベースのSPA(Single Paged Appp)を作成するためのテンプレートです。
 Gulp.jsを利用して自動ビルド・デプロイが可能です。
 
+ビルドシステム内にソースコードを変換する仕組みが組み入れられているため、コードをCoffeeScriptで書くことも、ES6 JavaScriptの文法を用いることも、もちろん通常のJavaScript(ES5)そのままでの利用もできます。
+
 ## セットアップ
 
 Node.jsの0.10かそれ以上がインストールされていることを確認して下さい。
