@@ -99,8 +99,8 @@ The `nf` command can be installed by `npm install -g foreman`.
 │   │
 │   ├── scripts              # Script files that can be compiled to JS
 │   │   ├── components         # Scripts for ReactJS components 
-│   │   │   ├── bar.jsx          # .js or .jsx can include JSX inside
-│   │   │   ├── baz.cjsx         # .cjsx or .coffee can include JSX inside
+│   │   │   ├── bar.jsx          # ES6 JS (.js or .jsx), which can include JSX
+│   │   │   ├── baz.cjsx         # CoffeeScript (.cjsx or .coffee), which can include JSX
 │   │   │   ├── foo.coffee
 │   │   │   ├── foo.coffee
 │   │   │   ├── ...

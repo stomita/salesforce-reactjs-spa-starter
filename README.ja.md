@@ -99,8 +99,8 @@ $ nf run gulp deploy
 │   │
 │   ├── scripts              # スクリプトファイル(JSへコンパイル)
 │   │   ├── components         # ReactJS コンポーネントのスクリプトコード
-│   │   │   ├── bar.jsx          # .js および .jsx ファイル（JSX記述可能）
-│   │   │   ├── baz.cjsx         # .coffee および .cjsx ファイル(JSX記述可能)
+│   │   │   ├── bar.jsx          # ES6 JS : .js および .jsx ファイル（JSX記述可能）
+│   │   │   ├── baz.cjsx         # CoffeeScript : .coffee および .cjsx ファイル(JSX記述可能)
 │   │   │   ├── foo.coffee
 │   │   │   ├── root.js
 │   │   │   ├── ...
