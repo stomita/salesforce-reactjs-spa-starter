@@ -110,6 +110,11 @@ The `nf` command can be installed by `npm install -g foreman`.
 │   │
 │   ├── styles               # Stylesheet files to be compiled to CSS
 │   │   ├── components         # Stylesheets for ReactJS components
+│   │   │   ├── bar.less
+│   │   │   ├── baz.less
+│   │   │   ├── foo.less
+│   │   │   ├── ...
+│   │   │ 
 │   │   ├── main.less          # Entry point of CSS
 │   │   ├── ...
 │   │

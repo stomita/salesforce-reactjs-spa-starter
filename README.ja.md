@@ -110,6 +110,11 @@ $ nf run gulp deploy
 │   │
 │   ├── styles               # LESSスタイルシートファイル（CSSへコンパイル）
 │   │   ├── components         # ReactJS コンポーネントのスタイルシート
+│   │   │   ├── bar.less
+│   │   │   ├── baz.less
+│   │   │   ├── foo.less
+│   │   │   ├── ...
+│   │   │ 
 │   │   ├── main.less          # エントリポイントとなるスタイルシート
 │   │   ├── ...
 │   │
