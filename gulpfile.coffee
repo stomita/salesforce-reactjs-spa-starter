@@ -182,14 +182,14 @@ gulp.task "build", [ "build:bundle" ]
 # Build test scripts
 gulp.task "build:test", [ "build:src", "build:test:scripts" ]
 
-# Bundle test scripts for browser testing
+# Bundle test scripts for component testing
 gulp.task "build:test:component", [ "build:test" ], (done) ->
   gulp.src "#{paths.build.test}/unit/components/**/*.test.js"
     .pipe transform (filename) ->
       buildBundle
         src: filename
 
-# Build test scripts for browser testing, with watch option
+# Build test scripts for component testing, with watch option
 gulp.task "build:test:component:watch", [ "build:test" ], ->
   gulp.src "#{paths.build.test}/unit/components/**/*.test.js"
     .pipe transform (filename) ->
@@ -359,12 +359,16 @@ gulp.task "test:watch", [ "test:unit:watch", "test:component:watch" ]
 ###
 
 # Start HTTP server
-gulp.task "serve", [ "build" ], ->
+gulp.task "serve", (done) ->
   server = express()
   server.use express.static(paths.build.app)
   server.use express.static(paths.lib)
-  server.listen port
+  server.listen port, ->
+    gutil.log "App server started : http://localhost:#{port}"
+    done()
+
+# for development
+gulp.task "dev", [ "serve", "watch:build" ]
 
 #
-gulp.task "dev", [ "serve", "watch:build" ]
 gulp.task "default", [ "build" ]
