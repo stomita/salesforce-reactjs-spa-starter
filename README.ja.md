@@ -127,6 +127,8 @@ $ nf run gulp deploy
 ├── build                  # Gulpによって生成されるビルドファイルを格納するディレクトリ
 │   ├── app
 │   │   ├── index.html
+│   │   ├── scripts
+│   │   ├── styles
 │   │   ├── ...
 │   │
 │   └── test
