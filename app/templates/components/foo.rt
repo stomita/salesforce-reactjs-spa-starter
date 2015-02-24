@@ -1,1 +1,3 @@
-<div className="{this.props.className}">Foo: {this.props.children}</div>
+<div className="{this.props.className}">
+  <a href="#" onClick="{this.onClick}">{this.props.children}</a>
+</div>
